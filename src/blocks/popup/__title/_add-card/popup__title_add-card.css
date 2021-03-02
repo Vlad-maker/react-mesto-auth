@@ -1,0 +1,5 @@
+@media screen and (max-width: 430px) {
+  .popup__title_add-card {
+    margin-top: 30px;
+  }
+}

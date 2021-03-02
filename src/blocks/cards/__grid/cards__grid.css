@@ -1,0 +1,9 @@
+.cards__grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, 282px);
+  justify-content: center;
+  gap: 20px 18px;
+  list-style: none;
+  margin: 0 auto;
+  padding: 0;
+}

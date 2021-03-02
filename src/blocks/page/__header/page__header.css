@@ -1,0 +1,19 @@
+.page__header {
+  margin: 0 auto;
+  width: 882px;
+  padding-top: 45px;
+  padding-bottom: 36px;
+}
+
+@media screen and (max-width: 919px) {
+  .page__header {
+    width: 100%;
+    margin-top: 28px;
+  }
+}
+
+@media screen and (max-width: 767px) {
+  .page__header {
+    padding-bottom: 28px;
+  }
+}

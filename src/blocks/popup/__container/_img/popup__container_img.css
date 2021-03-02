@@ -1,0 +1,5 @@
+@media screen and (max-width: 920px) {
+  .popup__container_img {
+    width: calc(100% - 2 * 40px);
+  }
+}
