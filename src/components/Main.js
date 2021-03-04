@@ -1,55 +1,35 @@
-import React from "react";
-import Card from "./Card.js";
-import { CurrentUserContext } from "../contexts/CurrentUserContext.js";
-function Main(props) {
-    const currentUser = React.useContext(CurrentUserContext);
-    return (
-        <main className="content page__content">
-            <section className="profile content__profile">
-                <button
-                    className="profile__avatar-button"
-                    type="button"
-                    onClick={props.onEditAvatar}>
-                    <img className="profile__avatar" src={currentUser.avatar} alt="Аватар" />
-                </button>
-                <div className="profile__info">
-                    <h1 className="profile__name">{currentUser.name}</h1>
-                    <p className="profile__about">{currentUser.about}</p>
-                    <button
-                        className="profile__edit-button"
-                        type="button"
-                        aria-label="Редактировать"
-                        onClick={props.onEditProfile}
-                    />
-                </div>
-                <button
-                    className="profile__add-button"
-                    type="button"
-                    aria-label="Добавить"
-                    onClick={props.onAddPlace}
-                />
-            </section>
-            <section className="cards content__cards">
-                <ul className="cards__grid">
-                    {
-                        props.cards.map((card) => (
-                            <Card
-                                key={card._id}
-                                card={card}
-                                name={card.name}
-                                link={card.link}
-                                likes={card.likes}
-                                onCardClick={props.onCardClick}
-                                onCardLike={props.onCardLike}
-                                onCardDelete={props.onCardDelete}
-                            />
-                            )
-                        )
-                    }
+import React from 'react';
+import { CurrentUserContext } from '../contexts/CurrentUserContext';
+import Card from './Card';
 
-                </ul>
-            </section>
-        </main>
-    );
-}
-export default Main;
+export default function Main(props) {
+  const currentUser = React.useContext(CurrentUserContext);
+  return (
+    <main className="main">
+      <section className="profile">
+        <div className="profile__avatar">
+          <div className="profile__overlay" onClick={props.onEditAvatar}></div>
+          <img src={currentUser.avatar} alt={`Аватар ${currentUser.name}`} className="profile__photo" />
+        </div>
+        <div className="profile__description">
+          <div className="profile__title-row">
+            <h1 className="profile__title">{currentUser.name}</h1>
+            <button type="button" className="profile__button profile__button_edit" onClick={props.onEditProfile}></button>
+          </div>
+          <p className="profile__subtitle">
+            {currentUser.about}
+          </p>
+        </div>
+        <button type="button" className="profile__button profile__button_add" onClick={props.onAddPlace}></button>
+      </section>
+      <section className="cards-grid">
+        {props.cards.map((card, i) => {
+          return (
+            <Card className="card" key={card._id} onCardClick={props.onCardClick} card={card} onCardLike={props.onCardLike}
+              onCardDelete={props.onCardDelete} />
+          );
+        })}
+      </section>
+    </main>
+    )
+  };

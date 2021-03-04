@@ -1,5 +1,22 @@
 .page__container {
-  min-width: 320px;
-  max-width: 1280px;
-  margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    position: relative;
+    max-width: 882px;
+    box-sizing: border-box;
+    margin: 0 auto;
+    min-height: 100vh;
+}
+
+@media screen and (max-width:900px) {
+    .page__container {
+        padding: 0 5px;
+    }
+}
+
+@media screen and (max-width:500px) {
+    .page__container {
+        padding: 0 19px;
+    }
 }

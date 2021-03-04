@@ -1,0 +1,21 @@
+.profile__button_edit {
+    border: 1px solid #FFFFFF;
+    border-radius: 1px;
+    width: 24px;
+    height: 24px;
+    background-image: url(../../../../img/pencil.svg);
+    background-size: cover;
+    align-self: center;
+    outline-style: none;
+    box-sizing: border-box;
+    margin-top: 10px;
+}
+
+@media screen and (max-width:500px) {
+    .profile__button_edit {
+        width: 18px;
+        height: 18px;
+        margin-top: 0px;
+        margin-left: 0px;
+    }
+}

@@ -1,0 +1,7 @@
+.auth {
+    display: flex;
+    flex: 1 0 auto;
+    width: 100%;
+    max-width: 358px;
+    margin: 0 auto;
+}

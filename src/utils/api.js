@@ -1,97 +1,161 @@
-class Api {
-    constructor(options) {
-        this.Url = options.Url;
-        this.headers = options.headers;
-    }
+export class Api {
+  constructor(options) {
+    this._Url = options.Url;
+    this._token = options.token;
+    this._authUrl = options.authUrl;
+  }
 
-    getUserData() {
-        return fetch(`${this.Url}/users/me`, {
-            headers: this.headers
+  _getResponse(res) {
+    if (res.ok)
+      return res.json();
+    return Promise.reject(new Error(`Ошибка: ${res.status}`))
+  }
+
+  getProfileInfo() {
+    return fetch(`${this._Url}users/me`, {
+      headers: {
+        authorization: this._token
+      }
+    })
+      .then(res => {
+        return this._getResponse(res);
+      })
+  }
+
+  setProfileInfo(data) {
+    return fetch(`${this._Url}users/me`, {
+      method: 'PATCH',
+      headers: {
+        authorization: this._token,
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(
+        data
+      )
+    }).then(res => {
+      return this._getResponse(res);
+    })
+  }
+
+  getInitialCards() {
+    return fetch(`${this._Url}cards`, {
+      method: 'GET',
+      headers: {
+        authorization: this._token,
+        'Content-Type': 'application/json'
+      }
+    }).then(res => {
+      return this._getResponse(res);
+    })
+  }
+
+  postNewCard(data) {
+    return fetch(`${this._Url}cards`, {
+      method: 'POST',
+      headers: {
+        authorization: this._token,
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(
+        data
+      )
+    }).then(res => {
+      return this._getResponse(res);
+    })
+  }
+
+  deleteCard(id) {
+    return fetch(`${this._Url}cards/${id}`, {
+      method: 'DELETE',
+      headers: {
+        authorization: this._token
+      }
+    }).then(res => {
+      return this._getResponse(res);
+    })
+  }
+
+  changeLikeStatus(id, isLiked) {
+    if (!isLiked) {
+        return fetch(`${this._Url}cards/likes/${id} `, {
+            method: 'PUT',
+            headers: {
+                authorization: this._token
+              }
         })
-            .then(res => this._getResponse(res))
-    }
-
-    getInitialCards() {
-        return fetch (`${this.Url}/cards`, {
-            headers: this.headers
-        })
-            .then(res => this._getResponse(res))
-    }
-
-    editUserData({ name, about }) {
-        return fetch(`${this.Url}/users/me`, {
-            method: 'PATCH',
-            headers: this.headers,
-            body: JSON.stringify({
-                name: name,
-                about: about
-            })
-        })
-            .then(res => this._getResponse(res))
-    }
-
-    postNewCard({ name, link }) {
-        return fetch(`${this.Url}/cards `, {
-            method: 'POST',
-            headers: this.headers,
-            body: JSON.stringify({
-                name: name,
-                link: link
-            })
-        })
-            .then(res => this._getResponse(res))
-    }
-
-    deleteCard(cardId) {
-        return fetch(`${this.Url}/cards/${cardId}`, {
+            .then(res => this._getResponse(res));
+    } else {
+        return fetch(`${this._Url}cards/likes/${id}`, {
             method: 'DELETE',
-            headers: this.headers,
+            headers: {
+                authorization: this._token
+              }
         })
-            .then(res => this._getResponse(res))
+            .then(res => this._getResponse(res));
     }
+  }
 
-    changeLikeStatus(cardId, isLiked) {
-        if (!isLiked) {
-            return fetch(`${this.Url}/cards/likes/${cardId} `, {
-                method: 'PUT',
-                headers: this.headers
-            })
-                .then(res => this._getResponse(res));
-        } else {
-            return fetch(`${this.Url}/cards/likes/${cardId}`, {
-                method: 'DELETE',
-                headers: this.headers
-            })
-                .then(res => this._getResponse(res));
-        }
-    }
+  setProfileAvatar(data) {
+    return fetch(`${this._Url}users/me/avatar`, {
+      method: 'PATCH',
+      headers: {
+        authorization: this._token,
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(
+        data
+      )
+    }).then(res => {
+      return this._getResponse(res);
+    })
+  }
 
-    changeUserAvatar(data) {
-        return fetch(`${this.Url}/users/me/avatar`, {
-            method: 'PATCH',
-            headers: this.headers,
-            body: JSON.stringify({
-                avatar: data.avatar
-            })
-        })
-            .then(res => this._getResponse(res))
-    }
+  registration(data) {
+    return fetch(`${this._authUrl}signup`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(
+        data
+      )
+    }).then(res => {
+      return this._getResponse(res);
+    })
+  }
 
-    _getResponse(res) {
-        if (res.ok) {
-            return(res.json());
-        }
+  login(data) {
+    return fetch(`${this._authUrl}signin`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(
+        data
+      )
+    }).then(res => {
+      return this._getResponse(res);
+    })
+  }
 
-        return Promise.reject(`Ошибка: ${res.status}`);
-    }
+  checkToken(token) {
+    return fetch(`${this._authUrl}users/me`, {
+      method: 'GET',
+      headers: {
+        'Content-type': 'application/json',
+        'Authorization': `Bearer ${token}`
+      },
+    }).then(res => {
+      return this._getResponse(res);
+    })
+  }
+
 }
 
-const api = new Api({
-    Url: 'https://mesto.nomoreparties.co/v1/cohort-19',
-    headers: {
-        authorization: 'b88baff0-9a43-403c-833b-e4c683401608',
-        'Content-type': 'application/json',
-    }
-});
-
+const options = {
+  Url: 'https://mesto.nomoreparties.co/v1/cohort-19/',
+  authUrl: 'https://auth.nomoreparties.co/',
+  token: 'b88baff0-9a43-403c-833b-e4c683401608'
+}
+const api = new Api(options);
 export default api;

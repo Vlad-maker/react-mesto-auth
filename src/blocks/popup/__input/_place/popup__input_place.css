@@ -1,9 +1,0 @@
-@media screen and (max-width: 430px) {
-  .popup__input_place:first-of-type {
-    margin-top: 20px;
-    font-size: 12px;
-    line-height: 15px;
-    height: 36px;
-    width: calc(100% - 2 * 20px);
-  }
-}
