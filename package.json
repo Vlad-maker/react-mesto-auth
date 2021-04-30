@@ -18,8 +18,13 @@
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "predeploy": "npm run build",
-    "deploy": "gh-pages -d build"
+    "deploy": "npm run build & gh-pages -d build"
   },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Vlad-maker/react-mesto-auth.git"
+  },
+  "homepage": "https://vlad-maker.github.io/react-mesto-auth",
   "eslintConfig": {
     "extends": [
       "react-app",

@@ -1,4 +1,5 @@
 # Проект: Место - Auth
+[Try it](https://vlad-maker.github.io/react-mesto-auth/#/sign-up)
 Фронтенд проекта Mesto с регистрацией и авторизацией на React.
 **Возможности:**
 - [x] Редактировать имя и описание профиля
